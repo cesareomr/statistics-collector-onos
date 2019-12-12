@@ -1,0 +1,434 @@
+ least doesn't clip the annotation to it :-(
+%      1 index /Rect known {
+%        1 index annotrect exch % llx lly h w
+%        3 index add exch   % x y urx h
+%        2 index add
+%      }{
+        clippath pathbbox newpath
+%      } ifelse
+      .begintransparencygroup
+    } if
+  }bind executeonly def
+
+  /endannottransparency {
+    PDFusingtransparency {
+      .endtransparencygroup
+    } if
+  }bind executeonly def
+
+  /ValidateAP {
+    dup /AP oknown {
+        dup /AP oget
+        /N oknown not {
+          //false
+        } {
+          //true
+        } ifelse
+    } {
+      //false
+    }ifelse
+  } bind executeonly def
+
+  % x0 y0 x1 y1 x2 y2 x3 y3 -> x0 y0 x1-x0 y1-y0 x2-x0 y2-y0
+  /quadpoints2basis {
+    8 { oforce 8 1 roll } repeat
+
+    % The text is oriented with respect to the vertex with the smallest
+    % y value (or the leftmost of those, if there are two such vertices)
+    % (x0, y0) and the next vertex in a counterclockwise direction
+    % (x1, y1), regardless of whether these are the first two points in
+    % the QuadPoints array.
+
+    2 {
+      2 index 1 index eq {
+        3 index 2 index gt {
+          4 2 roll
+        } if
+      } {
+        2 index 1 index gt {
+          4 2 roll
+        } if
+      } ifelse
+      8 4 roll
+    } repeat
+    6 index 3 index gt {
+      8 4 roll
+    } if
+
+    %  ^
+    %  |
+    %  * (x2,y2)    * (x3,y3)
+    %  |
+    %  |
+    %  *------------*->
+    %  (x0,y0)      (x1,y1)
+
+    pop pop           % x0 y0 x1 y1 x2 y2
+    4 index sub exch  % x0 y0 x1 y1 y2-y0 x2
+    5 index sub exch  % x0 y0 x1 y1 x2-x0 y2-y0
+    4 2 roll
+    4 index sub exch  % x0 y0 x2-x0 y2-y0 y1-y0 x1
+    5 index sub exch  % x0 y0 x2-x0 y2-y0 x1-x0 y1-y0
+    4 2 roll          % x0 y0 x1-x0 y1-y0 x2-x0 y2-y0
+  } bind executeonly def
+
+  /Square {
+    //ValidateAP exec
+    {
+      //true
+    } {
+      gsave
+      //startannottransparency exec
+      dup
+      annotsetinteriorcolor
+      {
+        gsave
+        dup /ca knownoget {.setopacityalpha} if
+        dup annotrect rectfill
+        grestore
+        dup /CA knownoget {.setopacityalpha} if
+        drawborder
+        //false
+      }{
+        pop
+      } ifelse
+      //endannottransparency exec
+      grestore
+    }ifelse
+  } bind executeonly def
+
+%% Width Height drawellipse -
+/drawellipse {
+  %% Don Lancaster's code for drawing an ellipse
+  0.55228475 0.00045 sub % improved magic value
+  3 1 roll               % magic width height
+  2 div exch 2 div       % magic y-radius x-radius
+  dup 3 index mul        % magic y-radius x-radius x-magic
+  2 index                % magic y-radius x-radius x-magic y-radius
+  5 -1 roll mul          % magic y-radius x-radius x-magic y-magic
+
+  2 index neg 0 moveto                                          % xrad neg 0 moveto
+  2 index neg 1 index 3 index neg 6 index 0 8 index curveto     % xrad neg ymag xmag neg yrad 0 yrad curveto
+  1 index 4 index 4 index 3 index 1 index 0 curveto             % xmag yrad xrad ymag xrad 0 curveto
+  2 index 1 index neg 3 index 6 index neg 0 1 index curveto     % xrad ymag neg xmag yrad neg 0 yrad neg curveto
+                                                                % Stack: yrad xrad xmag ymag
+  exch neg 4 1 roll 3 -1 roll neg 3 1 roll exch neg exch
+  neg 1 index 0 curveto                                         % xmag neg yrad neg xrad neg ymag neg 0 curveto
+}bind executeonly def
+
+  /Circle {
+    //ValidateAP exec
+    {
+      //true
+    } {
+      gsave
+      //startannottransparency exec
+      dup annotrect 4 2 roll exch 3 index 2 div add exch 2 index 2 div add
+      translate //drawellipse exec
+      dup
+      fillborderpath
+      strokeborderpath
+      //endannottransparency exec
+      grestore
+      //false
+    } ifelse
+  } bind executeonly def
+
+  /Polygon {
+    //ValidateAP exec
+    {
+      //true
+    } {
+      gsave
+      //startannottransparency exec
+      dup /Vertices knownoget {
+        dup length 2 div 1 sub cvi 0 1 3 -1 roll
+        {
+          2 mul dup
+          2 index exch 2 getinterval aload pop
+          3 -1 roll 0 eq {
+            moveto
+          }{
+            lineto
+          } ifelse
+        }
+        for
+        pop
+        closepath
+        //true
+      } {
+          (   **** Error: Invalid Vertices for Polygon, annotation has not been drawn.\n)
+          pdfformaterror
+          (               Output may be incorrect.\n) pdfformaterror
+        //false
+      } ifelse
+
+      1 index annotsetinteriorcolor {
+        //true
+      }{
+        //false
+      }ifelse
+      and
+
+      {
+        gsave
+        dup /ca knownoget {.setopacityalpha} if
+        fill
+        grestore
+        dup /CA knownoget {.setopacityalpha} if
+        strokeborderpath
+      } if
+      //endannottransparency exec
+      //false
+      grestore
+    } ifelse
+  } bind executeonly def
+
+  /LineEnd_dict 10 dict begin
+    %% Stack contains <annot>
+    %% CTM rotated so line segment is vertical, translated so line endpoint at 0,0
+
+    /Square {
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      dup 2.5 mul
+      gsave
+      dup neg 1 index neg exch moveto
+      dup neg 1 index lineto
+      dup 1 index exch lineto
+      dup neg lineto
+      closepath
+      1 index /CA knownoget {.setopacityalpha} if
+      1 index fillborderpath
+      grestore
+      3 mul
+      dup neg 1 index neg exch moveto
+      dup neg 1 index lineto
+      dup 1 index exch lineto
+      dup neg lineto
+      closepath
+      strokeborderpath
+    } bind executeonly def
+    /Circle {
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      dup
+      gsave
+      2.5 mul dup
+      0 moveto
+      0 0 3 -1 roll 0 360 arc
+      1 index /CA knownoget {.setopacityalpha} if
+      1 index fillborderpath
+      grestore
+      3 mul dup
+      0 moveto
+      0 0 3 -1 roll 0 360 arc
+      strokeborderpath
+    } bind executeonly def
+    /Diamond {
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      dup 2.5 mul
+      gsave
+      dup neg 0 exch moveto
+      dup neg 0 lineto
+      dup 0 exch lineto
+      0 lineto
+      closepath
+      1 index /CA knownoget {.setopacityalpha} if
+      1 index fillborderpath
+      grestore
+      3 mul
+      dup neg 0 exch moveto
+      dup neg 0 lineto
+      dup 0 exch lineto
+      0 lineto
+      closepath
+      strokeborderpath
+    } bind executeonly def
+    /OpenArrow {
+      dup
+      gsave
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      0 setlinejoin
+      dup 6 mul neg 1 index 4 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 6 mul neg exch 4 mul lineto
+      strokeborderpath
+      grestore
+    } bind executeonly def
+    /ClosedArrow {
+      dup
+      gsave
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      dup
+      gsave
+      0 setlinejoin
+      dup 6 mul neg 1 index 4 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 6 mul neg exch 4 mul lineto closepath
+      1 index strokeborderpath
+      grestore
+      dup 1.3 mul neg 0 translate
+      dup 2 div sub
+      dup 8.4 mul neg 1 index 5.9 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 8.4 mul neg exch 5.9 mul lineto closepath
+      dup /CA knownoget {.setopacityalpha} if
+      fillborderpath
+      grestore
+    } bind executeonly def
+    /None {} bind executeonly def
+    /Butt {
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      3 mul dup neg 0 exch moveto 0 exch lineto
+      strokeborderpath
+    } bind executeonly def
+    /ROpenArrow {
+      gsave
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      180 rotate
+      0 setlinejoin
+      dup 6 mul neg 1 index 4 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 6 mul neg exch 4 mul lineto
+      strokeborderpath
+      grestore
+    } bind executeonly def
+    /RClosedArrow {
+      gsave
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      180 rotate
+      dup
+      gsave
+      0 setlinejoin
+      dup 6 mul neg 1 index 4 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 6 mul neg exch 4 mul lineto closepath
+      1 index strokeborderpath
+      grestore
+      dup 1.3 mul neg 0 translate
+      dup 2 div sub
+      dup 8.4 mul neg 1 index 5.9 mul neg moveto dup 1.2 div neg 0 lineto
+      dup 8.4 mul neg exch 5.9 mul lineto closepath
+      dup /CA knownoget {.setopacityalpha} if
+      fillborderpath
+      grestore
+    } bind executeonly def
+    /Slash {
+      gsave
+      dup
+      /BS knownoget {
+        /W knownoget {
+        }{
+          1
+        }ifelse
+      }{
+        1
+      }ifelse
+      330 rotate
+      3 mul dup neg 0 exch moveto 0 exch lineto
+      strokeborderpath
+      grestore
+    } bind executeonly def
+
+  currentdict end readonly def
+
+  /Line  {
+    //ValidateAP exec
+    {
+      //true
+    } {
+      gsave
+      //startannottransparency exec
+      dup /L knownoget {
+        1 index /LE knownoget {
+          gsave
+          1 index aload pop  % x1 y1 x2 y2
+          3 -1 roll sub      % x1 x2 dy
+          3 1 roll exch sub  % dy dx
+          2 copy translate
+          atan
+          rotate
+          dup 0 get dup //LineEnd_dict exch known not {pop /None} if //LineEnd_dict exch get 3 index exch exec
+          grestore
+          gsave
+          1 index aload pop  % x1 y1 x2 y2
+          3 -1 roll sub      % x1 x2 dy
+          3 1 roll exch sub  % dy dx
+          2 copy translate
+          atan 180 add
+          rotate
+          1 get dup //LineEnd_dict exch known not {pop /None} if //LineEnd_dict exch get 3 index exch exec
+          grestore
+        }if
+        aload pop 4 2 roll
+        moveto lineto
+        strokeborderpath
+      }{
+        (   **** Error: Invalid L array for Line, annotation has not been drawn.\n)
+        pdfformaterror
+        (               Output may be incorrect.\n) pdfformaterror
+        pop
+      } ifelse
+      //endannottransparency exec
+      //false
+      grestore
+    } ifelse
+  } bind executeonly def
+
+  /PolyLin

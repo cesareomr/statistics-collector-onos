@@ -1,0 +1,234 @@
+UIDs; if the device should have its own unique GUIDs, you should use the
+-G option on the new disk.
+<P>
+<DT><B>-s, --sort</B>
+
+<DD>
+Sort partition entries. GPT partition numbers need not match the order of
+partitions on the disk. If you want them to match, you can use this option.
+Note that some partitioning utilities sort partitions whenever they make
+changes. Such changes will be reflected in your device filenames, so you
+may need to edit <I>/etc/fstab</I> if you use this option.
+<P>
+<DT><B>-t, --typecode=partnum:{hexcode|GUID}</B>
+
+<DD>
+Change a single partition's type code. You enter the type code using either
+a two-byte hexadecimal number, as described earlier, or a fully-specified
+GUID value, such as EBD0A0A2-B9E5-4433-87C0-68B6B72699C7.
+<P>
+<DT><B>-T, --transform-bsd=partnum</B>
+
+<DD>
+Transform BSD partitions into GPT partitions. This option works on BSD
+disklabels held within GPT (or converted MBR) partitions. Converted
+partitions' type codes are likely to need manual adjustment. <B>sgdisk</B>
+will attempt to convert BSD disklabels stored on the main disk when
+launched, but this conversion is likely to produce first and/or last
+partitions that are unusable. The many BSD variants means that the
+probability of <B>sgdisk</B> being unable to convert a BSD disklabel is
+high compared to the likelihood of problems with an MBR conversion.
+<P>
+<DT><B>-u, --partition-guid=partnum:guid</B>
+
+<DD>
+Set the partition unique GUID for an individual partition. The GUID may be
+a complete GUID or 'R' to set a random GUID.
+<P>
+<DT><B>-U, --disk-guid=guid</B>
+
+<DD>
+Set the GUID for the disk. The GUID may be a complete GUID or 'R' to set a
+random GUID.
+<P>
+<DT><B>--usage</B>
+
+<DD>
+Print a brief summary of available options.
+<P>
+<DT><B>-v, --verify</B>
+
+<DD>
+Verify disk. This option checks for a variety of problems, such as
+incorrect CRCs and mismatched main and backup data. This option does not
+automatically correct most problems, though; for that, you must use options
+on the recovery &amp; transformation menu. If no problems are found, this
+command displays a summary of unallocated disk space. This option will work
+even if the disk's original partition table is bad; however, most other
+options on the same command line will be ignored.
+<P>
+<DT><B>-V, --version</B>
+
+<DD>
+Display program version information. This option may be used without
+specifying a device filename.
+<P>
+<DT><B>-z, --zap</B>
+
+<DD>
+Zap (destroy) the GPT data structures and then exit. Use this option if you
+want to repartition a GPT disk using <B>fdisk</B> or some other GPT-unaware
+program. This option destroys only the GPT data structures; it leaves the
+MBR intact. This makes it useful for wiping out GPT data structures after a
+disk has been repartitioned for MBR using a GPT-unaware utility; however,
+there's a risk that it will damage boot loaders or even the start of the
+first or end of the last MBR partition. If you use it on a valid GPT disk,
+the MBR will be left with an inappropriate EFI GPT (0xEE) partition
+definition, which you can delete using another utility.
+<P>
+<DT><B>-Z, --zap-all</B>
+
+<DD>
+Zap (destroy) the GPT and MBR data structures and then exit. This option
+works much like <I>-z</I>, but as it wipes the MBR as well as the GPT, it's
+more suitable if you want to repartition a disk after using this option,
+and completely unsuitable if you've already repartitioned the disk.
+<P>
+<DT><B>-?, --help</B>
+
+<DD>
+Print a summary of options.
+<P>
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>RETURN VALUES</H2>
+
+<B>sgdisk</B> returns various values depending on its success or failure:
+<P>
+<DL COMPACT>
+<DT><B>0</B>
+
+<DD>
+Normal program execution
+<P>
+<DT><B>1</B>
+
+<DD>
+Too few arguments
+<P>
+<DT><B>2</B>
+
+<DD>
+An error occurred while reading the partition table
+<P>
+<DT><B>3</B>
+
+<DD>
+Non-GPT disk detected and no <I>-g</I> option, but operation requires a
+write action
+<P>
+<DT><B>4</B>
+
+<DD>
+An error prevented saving changes
+<P>
+<DT><B>5</B>
+
+<DD>
+An error occurred while reading standard input (should never occur with
+sgdisk, but may with gdisk)
+<P>
+<DT><B>8</B>
+
+<DD>
+Disk replication operation (-R) failed
+<P>
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>BUGS</H2>
+
+Known bugs and limitations include:
+<P>
+<DL COMPACT>
+<DT><B>*</B>
+
+<DD>
+The program compiles correctly only on Linux, FreeBSD, and Mac OS X. Linux
+versions for x86-64 (64-bit), x86 (32-bit), and PowerPC (32-bit) have been
+tested, with the x86-64 version having seen the most testing.
+<P>
+<DT><B>*</B>
+
+<DD>
+The FreeBSD version of the program can't write changes to the partition
+table to a disk when existing partitions on that disk are mounted. (The
+same problem exists with many other FreeBSD utilities, such as
+<B>gpt</B>, <B>fdisk</B>, and <B>dd</B>.) This limitation can be overcome
+by typing <B>sysctl kern.geom.debugflags=16</B> at a shell prompt.
+<P>
+<DT><B>*</B>
+
+<DD>
+The fields used to display the start and end sector numbers for partitions
+in the <I>-p</I> option are 14 characters wide. This translates to a limitation
+of about 45 PiB. On larger disks, the displayed columns will go out of
+alignment.
+<P>
+<DT><B>*</B>
+
+<DD>
+The program can load only up to 128 partitions (4 primary partitions and
+124 logical partitions) when converting from MBR format. This limit can
+be raised by changing the <I>#define MAX_MBR_PARTS</I> line in the
+<I>basicmbr.h</I> source code file and recompiling; however, such a change
+will require using a larger-than-normal partition table. (The limit
+of 128 partitions was chosen because that number equals the 128 partitions
+supported by the most common partition table size.)
+<P>
+<DT><B>*</B>
+
+<DD>
+Converting from MBR format sometimes fails because of insufficient space at
+the start or (more commonly) the end of the disk. Resizing the partition
+table (using the 's' option in the experts' menu) can sometimes overcome
+this problem; however, in extreme cases it may be necessary to resize a
+partition using GNU Parted or a similar tool prior to conversion with
+<B>gdisk</B>.
+<P>
+<DT><B>*</B>
+
+<DD>
+MBR conversions work only if the disk has correct LBA partition
+descriptors. These descriptors should be present on any disk over 8 GiB in
+size or on smaller disks partitioned with any but very ancient software.
+<P>
+<DT><B>*</B>
+
+<DD>
+BSD disklabel support can create first and/or last partitions that overlap
+with the GPT data structures. This can sometimes be compensated by
+adjusting the partition table size, but in extreme cases the affected
+partition(s) may need to be deleted.
+<P>
+<DT><B>*</B>
+
+<DD>
+Because of the highly variable nature of BSD disklabel structures,
+conversions from this form may be unreliable -- partitions may be dropped,
+converted in a way that creates overlaps with other partitions, or
+converted with incorrect start or end values. Use this feature with
+caution!
+<P>
+<DT><B>*</B>
+
+<DD>
+Booting after converting an MBR or BSD disklabel disk is likely to be
+disrupted. Sometimes re-installing a boot loader will fix the problem, but
+other times you may need to switch boot loaders. Except on EFI-based
+platforms, Windows through at least Windows 7 RC doesn't support booting
+from GPT disks. Creating a hybrid MBR (using the 'h' option on the recovery &amp;
+transformation menu) or abandoning GPT in favor of MBR may be your only
+options in this case.
+<P>
+</DL>
+<P>
+
+<P>
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+Primary author: Roderick W. Smith (<A HREF="mailto:rodsmith@rodsbooks.com">rodsmith@rodsbooks.com</A>)
+<P>
+Contributors:
+<P>
+* Yves Blusseau (<A HREF="mailto:1otnwmz02@
