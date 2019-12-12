@@ -9,5 +9,5 @@ Proyecto ONOS desarrollado con Intellij Idea.
 Servicio que ofrece los datos recogidos por la aplicación via REST.
 
 ```sh
-$ bin/...
+$ bin/python2 rest.py
 ```

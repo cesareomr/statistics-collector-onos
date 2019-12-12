@@ -1,6 +1,19 @@
-šA­ûÔ™Zxâ¶rıõ°¢i3TYCø™ |°ÄÃ˜Di8 c±´àOÜƒ{ŸbÇÍ4[îŸ&>ÎTÂ÷ªo%›
-¶¿Y¯a¡ºıÀ
-K<É'Üú€
-)Ü{@V†aÓwQûe½‡»!}ôƒ\Îì·wÖ³³ú	r(ûŒbÔ-ëz¡ÚŒ\XœeQ(À/Ğd«;¬ˆø “ø‰‰H?ƒ>…ù6Ø£
-2cG†h˜N©Cü?ä?äı[òíÑe@Ó[„ƒ4oë¼Ëj\ï±Üêwy—.ˆ&˜™¿<„¡@„{È6ÛzI¹=(ÚºÎË$½[¥=õ#oÚñGşšK–€RŠHjûË·lâ"?­¿ƒš¨ÑúºîØJš¹>Íê¨Y•óø×›v¼. ë£Â2‚kc¸Ú6Fyù£‘i;?`Qı°=úaoår.Æ!?$gŞñ˜ñÊÏ„]D¬9F#Ó·ãn%»¤Òj*Ğ‰¯ûháU&&M²n"ªOŒİ·êàS*ûßW¤©ùi{)í=4¨émÍê6ÂŞïWìˆùvEİàbo%Î‘Z}ÌÈñ¼K¯‹äÌÉ+şÚÏ¡dY(JëØû¼ÍÔ–3ü+®¯·ºylğfc9Åã¼üä*SOÄë¥¢)As«~æá#Â*†n„v3ÒhÍbk³ddüŒ—YF4jSö~.Ü²tšÅ_´:]şµÃ~qêË
-ßV:©ë×ë?µÅ$ı¸%±Â´j)R¯R‰î+n½j¿…£J~œ‰ãÊ·İp%‚K^mèpB5eÀâééåJ§]‹¢·ƒtEûäĞGßÂ2EÑµÔğf=h ©kG9ûÓ_ÿŸgÌ¾Ë™Âó§»ß5Ú÷÷’»ÿkĞŸÍR°,6ä]{R}Ï’YÃgU%¬ùÇÄ67ÀEgãÛşúÆTÛv†gOïÎ_D^¢İ2ÃÖ û%Dc Ë­GÊaQÔş“‡A÷Gƒ	‘·™!³İû9 Uİhj
+Manifest-Version: 1.0
+Bnd-LastModified: 1576187059645
+Build-Jdk: 1.8.0_201
+Built-By: cesareo
+Bundle-Description: ONOS OSGi bundle archetype
+Bundle-ManifestVersion: 2
+Bundle-Name: estadisticas
+Bundle-SymbolicName: uah.tfg.estadisticas
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: uah.tfg;uses:="org.onosproject.net.device";version="1.0.
+ 0"
+Import-Package: javax.xml.parsers,javax.xml.transform,javax.xml.transfor
+ m.dom,javax.xml.transform.stream,org.onosproject.net;version="[1.14,2)"
+ ,org.onosproject.net.device;version="[1.14,2)",org.slf4j;version="[1.7,
+ 2)",org.w3c.dom
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Service-Component: OSGI-INF/uah.tfg.AppComponent.xml
+Tool: Bnd-3.0.0.201509101326
