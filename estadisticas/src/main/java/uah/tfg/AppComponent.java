@@ -23,7 +23,6 @@ import org.onosproject.net.link.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
-
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,36 +52,13 @@ public class AppComponent
     protected void activate() throws Exception
     {
         log.info("activate - INFO 0 | Entro en el método activate");
-        Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
         ArrayList key = new ArrayList();
         ArrayList value = new ArrayList();
-        int i=0, servicios=2;
 
-        for (Device d : devices)    //Recorro todos los switch
-        {
-            List<Port> ports = deviceService.getPorts(d.id());      //Almaceno en la variable ports, todos los puertos del switch
-
-            for (Port port : ports)     //Obtengo estadisticas para cada puerto
-            {
-                PortStatistics portstat = deviceService.getStatisticsForPort(d.id(), port.number());
-
-                if (portstat != null) {
-                    log.info("Paquetes recibidos: " + portstat.packetsReceived());
-                    items[i] = d.id().toString();
-                    key.add(port.number().toString());
-                    value.add(Long.toString(portstat.bytesReceived()));
-                    i++;
-                } else {
-                    log.info("No se pueden recuperar estadisticas del puerto: " + port.number());
-                }
-            }
-        }
-            try {
-                log.info("activate - INFO 1 | Generando " + nombreArchivo + ".xml");
-                generate(nombreArchivo, key, value);    //Llamada al método generate
-            } catch (Exception e) {
-            }
-
+        generateBytes(key,value);
+        key.clear();
+        value.clear();
+        generatePackets(key,value);
     }
 
     public void generateBytes(ArrayList key, ArrayList value)
@@ -102,8 +78,9 @@ public class AppComponent
                 {
                     key.add(port.number().toString());
                     value.add(Long.toString(portstat.bytesReceived()));
-                } else
-                    {
+                }
+                else
+                {
                     log.info(" generateBytes - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
                 }
             }
@@ -112,16 +89,16 @@ public class AppComponent
         try
         {
             log.info("generateBytes - INFO 1 | Generando bytes.xml");
-            generate("bytes", key, value);    //Llamada al método generate
+            generateXML("bytes", key, value);    //Llamada al método generate
         } catch (Exception e)
         {
             log.info("generaBytes - ERROR 0 | Error al generar bytes.xml");
         }
     }
 
-    public void generateBytes(ArrayList key, ArrayList value)
+    public void generatePackets(ArrayList key, ArrayList value)
     {
-        log.info(" generateBytes - INFO 0 | Entro en el método generateBytes");
+        log.info(" generatePackets - INFO 0 | Entro en el método generatePackets");
         Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
 
         for (Device d : devices)    //Recorro todos los switch
@@ -135,31 +112,31 @@ public class AppComponent
                 if (portstat != null)
                 {
                     key.add(port.number().toString());
-                    value.add(Long.toString(portstat.bytesReceived()));
+                    value.add(Long.toString(portstat.packetsReceived()));
                 } else
                 {
-                    log.info(" generateBytes - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
+                    log.info(" generatePackets - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
                 }
             }
         }
 
         try
         {
-            log.info("generateBytes - INFO 1 | Generando bytes.xml");
-            generate("bytes", key, value);    //Llamada al método generate
+            log.info("generatePackets - INFO 1 | Generando packets.xml");
+            generateXML("packets", key, value);    //Llamada al método generate
         } catch (Exception e)
         {
-            log.info("generaBytes - ERROR 0 | Error al generar bytes.xml");
+            log.info("generatePackets - ERROR 0 | Error al generar packets.xml");
         }
     }
 
     //public static void generate(String name, ArrayList<String> key,ArrayList<String> value) throws Exception
-    public void generate(String name, ArrayList<String> key, ArrayList<String> value) throws Exception
+    public void generateXML(String name, ArrayList<String> key, ArrayList<String> value) throws Exception
     {
-        log.info("generate - INFO 0 | Entro en el método generate");
+        log.info("generateXML - INFO 0 | Entro en el método generate");
         if(key.isEmpty() || value.isEmpty() || key.size()!=value.size())
         {
-            log.info("generate - ERROR 0 | Error en la dupla clave-valor");
+            log.info("generateXML - ERROR 0 | Error en la dupla clave-valor");
             return;
         }
         else
@@ -174,7 +151,7 @@ public class AppComponent
 
             for(int i=0; i<key.size();i++)	       //Por cada key creamos un item que contendrá la key y el value
             {
-                Element itemNode = document.createElement(name);  //Esta parte se puede mejorar
+                Element itemNode = document.createElement(name);
                 Element keyNode = document.createElement("port");
                 Text nodeKeyValue = document.createTextNode(key.get(i));
                 keyNode.appendChild(nodeKeyValue);
@@ -189,7 +166,7 @@ public class AppComponent
             Result result = new StreamResult(new java.io.File(name+".xml")); 	//nombre del archivo
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
-            log.info("generate - OK 0 | Se ha generado " +name +".xml exitosamente");
+            log.info("generateXML - OK 0 | Se ha generado " +name +".xml exitosamente");
         }
     }
 
