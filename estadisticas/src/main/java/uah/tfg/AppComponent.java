@@ -55,10 +55,15 @@ public class AppComponent
         ArrayList key = new ArrayList();
         ArrayList value = new ArrayList();
 
-        generateBytes(key,value);
-        key.clear();
-        value.clear();
-        generatePackets(key,value);
+        while(1)
+        {
+            key.clear();       //Creo que esta parte es mejorable
+            value.clear();
+            generateBytes(key, value);
+            key.clear();
+            value.clear();
+            generatePackets(key, value);
+        }
     }
 
     public void generateBytes(ArrayList key, ArrayList value)
@@ -163,7 +168,7 @@ public class AppComponent
                 raiz.appendChild(itemNode);
             }
             Source source = new DOMSource(document);
-            Result result = new StreamResult(new java.io.File(name+".xml")); 	//nombre del archivo
+            Result result = new StreamResult(new java.io.File(name+".xml")); 	//Tengo que ver como dejarlo en otra ruta
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
             log.info("generateXML - OK 0 | Se ha generado " +name +".xml exitosamente");
