@@ -22,7 +22,12 @@ import org.onosproject.net.device.PortStatistics;
 import org.onosproject.net.link.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,21 +59,25 @@ public class AppComponent
         log.info("activate - INFO 0 | Entro en el método activate");
         ArrayList key = new ArrayList();
         ArrayList value = new ArrayList();
+        int siempre=0;
 
-        while(1)
-        {
+        for (siempre=0 ; siempre <50 ; siempre++)   //Temporal para que pueda acabar
+        {    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
             key.clear();       //Creo que esta parte es mejorable
             value.clear();
+            log.info("activate - INFO 1 | Llamo al método generateBytes");
             generateBytes(key, value);
             key.clear();
             value.clear();
+            log.info("activate - INFO 1 | Llamo al método generatePackets");
             generatePackets(key, value);
+            TimeUnit.SECONDS.sleep(10);
         }
     }
 
     public void generateBytes(ArrayList key, ArrayList value)
     {
-        log.info(" generateBytes - INFO 0 | Entro en el método generateBytes");
+        log.info("generateBytes - INFO 0 | Entro en el método generateBytes");
         Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
 
         for (Device d : devices)    //Recorro todos los switch
@@ -86,7 +95,7 @@ public class AppComponent
                 }
                 else
                 {
-                    log.info(" generateBytes - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
+                    log.info("generateBytes - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
                 }
             }
         }
@@ -138,7 +147,10 @@ public class AppComponent
     //public static void generate(String name, ArrayList<String> key,ArrayList<String> value) throws Exception
     public void generateXML(String name, ArrayList<String> key, ArrayList<String> value) throws Exception
     {
-        log.info("generateXML - INFO 0 | Entro en el método generate");
+        log.info("generateXML - INFO 0 | Entro en el metodo generate");
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("hh:mm:ss");
+        String hora = hourdateFormat.format(date);
         if(key.isEmpty() || value.isEmpty() || key.size()!=value.size())
         {
             log.info("generateXML - ERROR 0 | Error en la dupla clave-valor");
@@ -151,6 +163,7 @@ public class AppComponent
             DOMImplementation implementation = builder.getDOMImplementation();
             Document document = implementation.createDocument(null, name, null);
             document.setXmlVersion("1.0");
+            document.setTextContent(hora);
 
             Element raiz = document.getDocumentElement();	//Nodo principal
 
@@ -168,10 +181,10 @@ public class AppComponent
                 raiz.appendChild(itemNode);
             }
             Source source = new DOMSource(document);
-            Result result = new StreamResult(new java.io.File(name+".xml")); 	//Tengo que ver como dejarlo en otra ruta
+            Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +"_" +hora +".xml"));
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
-            log.info("generateXML - OK 0 | Se ha generado " +name +".xml exitosamente");
+            log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
         }
     }
 
