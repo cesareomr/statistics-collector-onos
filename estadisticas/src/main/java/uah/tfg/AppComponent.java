@@ -59,20 +59,20 @@ public class AppComponent
         log.info("activate - INFO 0 | Entro en el método activate");
         ArrayList key = new ArrayList();
         ArrayList value = new ArrayList();
-        int siempre=0;
+        //int siempre=0;
 
-        for (siempre=0 ; siempre <50 ; siempre++)   //Temporal para que pueda acabar
-        {    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
-            key.clear();       //Creo que esta parte es mejorable
-            value.clear();
+        //for (siempre=0 ; siempre <50 ; siempre++)   //Temporal para que pueda acabar
+        //{    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
+         //   key.clear();       //Creo que esta parte es mejorable
+          //  value.clear();
             log.info("activate - INFO 1 | Llamo al método generateBytes");
             generateBytes(key, value);
             key.clear();
             value.clear();
             log.info("activate - INFO 1 | Llamo al método generatePackets");
             generatePackets(key, value);
-            TimeUnit.SECONDS.sleep(10);
-        }
+           // TimeUnit.SECONDS.sleep(10);
+        //}
     }
 
     public void generateBytes(ArrayList key, ArrayList value)
@@ -148,6 +148,8 @@ public class AppComponent
     public void generateXML(String name, ArrayList<String> key, ArrayList<String> value) throws Exception
     {
         log.info("generateXML - INFO 0 | Entro en el metodo generate");
+        //Por ahora no voy a usar la hora en el nombre del fichero, quiero meterlo en el mensaje
+        //y que es xml en el content-type
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("hh:mm:ss");
         String hora = hourdateFormat.format(date);
@@ -181,10 +183,12 @@ public class AppComponent
                 raiz.appendChild(itemNode);
             }
             Source source = new DOMSource(document);
-            Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +"_" +hora +".xml"));
+            Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +".xml"));
+            //Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +"_" +hora +".xml"));   Con hora en el fichero
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
-            log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
+            log.info("generateXML - OK 0 | Se ha generado " +name +".xml exitosamente");
+            //log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
         }
     }
 
