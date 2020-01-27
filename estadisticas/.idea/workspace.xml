@@ -4,6 +4,14 @@
     <list default="true" id="079454ef-ab0a-4000-8efd-8e88ff2e106f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uah/tfg/AppComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uah/tfg/AppComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uah/tfg/AppComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uah/tfg/AppComponent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/estadisticas-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/estadisticas-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/estadisticas-1.0-SNAPSHOT.oar" beforeDir="false" afterPath="$PROJECT_DIR$/target/estadisticas-1.0-SNAPSHOT.oar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/oar/m2/uah/tfg/estadisticas/1.0-SNAPSHOT/estadisticas-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/oar/m2/uah/tfg/estadisticas/1.0-SNAPSHOT/estadisticas-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-uah.tfg.AppComponentTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-uah.tfg.AppComponentTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/uah.tfg.AppComponentTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/uah.tfg.AppComponentTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pyrest/rest.py" beforeDir="false" afterPath="$PROJECT_DIR$/../pyrest/rest.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/uah/tfg/AppComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="189" column="67" selection-start-line="189" selection-start-column="67" selection-end-line="189" selection-end-column="67" />
+            <state relative-caret-position="381">
+              <caret line="107" column="37" lean-forward="true" selection-start-line="107" selection-start-column="37" selection-end-line="107" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -95,8 +103,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -192,7 +200,7 @@
     <frame x="1984" y="-11" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25815368" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27086788" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -231,8 +239,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/uah/tfg/AppComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="189" column="67" selection-start-line="189" selection-start-column="67" selection-end-line="189" selection-end-column="67" />
+        <state relative-caret-position="381">
+          <caret line="107" column="37" lean-forward="true" selection-start-line="107" selection-start-column="37" selection-end-line="107" selection-end-column="37" />
         </state>
       </provider>
     </entry>

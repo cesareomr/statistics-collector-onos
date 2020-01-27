@@ -49,7 +49,7 @@ public class AppComponent
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     public DeviceService deviceService;
-    //Quizas con este saque mas datos
+    //Devuelve información acerca del estado de los enlaces
     //@Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     //private LinkService linkService; /*!< @brief Servicio para interactuar con el inventario de enlaces */
 
@@ -57,95 +57,88 @@ public class AppComponent
     protected void activate() throws Exception
     {
         log.info("activate - INFO 0 | Entro en el método activate");
-        ArrayList key = new ArrayList();
-        ArrayList value = new ArrayList();
+        ArrayList keyPort = new ArrayList();
+        ArrayList valueBytesR = new ArrayList();
+        ArrayList valueBytesS = new ArrayList();
+        ArrayList valueDuration = new ArrayList();
+        ArrayList valuePacketsR = new ArrayList();
+        ArrayList valuePacketsRxD = new ArrayList();
+        ArrayList valuePacketsRxE = new ArrayList();
+        ArrayList valuePacketsS = new ArrayList();
+        ArrayList valuePacketsTxD = new ArrayList();
+        ArrayList valuePacketsTxE = new ArrayList();
         //int siempre=0;
 
         //for (siempre=0 ; siempre <50 ; siempre++)   //Temporal para que pueda acabar
         //{    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
-         //   key.clear();       //Creo que esta parte es mejorable
-          //  value.clear();
-            log.info("activate - INFO 1 | Llamo al método generateBytes");
-            generateBytes(key, value);
-            key.clear();
-            value.clear();
-            log.info("activate - INFO 1 | Llamo al método generatePackets");
-            generatePackets(key, value);
-           // TimeUnit.SECONDS.sleep(10);
-        //}
+            log.info("activate - INFO 1 | Llamo al método generateStatistics");
+            generateStatistics(keyPort, valueBytesR, valueBytesS, valueDuration, valuePacketsR, valuePacketsRxD, valuePacketsRxE, valuePacketsS, valuePacketsTxD, valuePacketsTxE);
+            /*keyPort.clear();
+            valueBytesR.clear();
+            valueBytesS.clear();
+            valueDuration.clear();
+            valuePacketsR.clear();
+            valuePacketsRxD.clear();
+            valuePacketsRxE.clear();
+            valuePacketsS.clear();
+            valuePacketsTxD.clear();
+            valuePacketsTxE.clear();
+            TimeUnit.SECONDS.sleep(10);
+        }*/
     }
 
-    public void generateBytes(ArrayList key, ArrayList value)
+    public void generateStatistics(ArrayList keyP,ArrayList valueBR,ArrayList valueBS,ArrayList valueD
+            ,ArrayList valuePR,ArrayList valuePRD,ArrayList valuePRE,ArrayList valuePS,ArrayList valuePTD,ArrayList valuePTE)
     {
-        log.info("generateBytes - INFO 0 | Entro en el método generateBytes");
+        log.info("generateStatistics - INFO 0 | Entro en el método generateStatistics");
         Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
+        String switchs[] = new String[50];      //Para guarda el id de cada switch
+        int i =0;
 
-        for (Device d : devices)    //Recorro todos los switch
+        for (Device d : devices)    //Recorro todos los switchs
         {
             List<Port> ports = deviceService.getPorts(d.id());      //Almaceno en la variable ports, todos los puertos del switch
 
-            for (Port port : ports)     //Obtengo estadisticas para cada puerto
+            for (Port port : ports)     //Obtengo estadisticas para cada puerto de cada switch
             {
                 PortStatistics portstat = deviceService.getStatisticsForPort(d.id(), port.number());
+                switchs[i]=d.id().toString();
+                i++;
 
                 if (portstat != null)
                 {
-                    key.add(port.number().toString());
-                    value.add(Long.toString(portstat.bytesReceived()));
+                    keyP.add(port.number().toString());
+                    valueBR.add(Long.toString(portstat.bytesReceived()));
+                    valueBS.add(Long.toString(portstat.bytesSent()));
+                    valueD.add(Long.toString(portstat.durationSec()));
+                    valuePR.add(Long.toString(portstat.packetsReceived()));
+                    valuePRD.add(Long.toString(portstat.packetsRxDropped()));
+                    valuePRE.add(Long.toString(portstat.packetsRxErrors()));
+                    valuePS.add(Long.toString(portstat.packetsSent()));
+                    valuePTD.add(Long.toString(portstat.packetsTxDropped()));
+                    valuePTE.add(Long.toString(portstat.packetsTxErrors()));
                 }
                 else
                 {
-                    log.info("generateBytes - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
+                    log.info("generateStatistics - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
                 }
             }
         }
 
         try
         {
-            log.info("generateBytes - INFO 1 | Generando bytes.xml");
-            generateXML("bytes", key, value);    //Llamada al método generate
+            log.info("generateStatistics - INFO 1 | Generando resultado.xml");
+            generateXML(switchs, keyP, valueBR, valueBS, valueD , valuePR, valuePRD, valuePRE, valuePS, valuePTD, valuePTE);
         } catch (Exception e)
         {
-            log.info("generaBytes - ERROR 0 | Error al generar bytes.xml");
+            log.info("generateStatistics - ERROR 0 | Error al generar *.xml");
+            log.info(e.getMessage());
         }
     }
 
-    public void generatePackets(ArrayList key, ArrayList value)
-    {
-        log.info(" generatePackets - INFO 0 | Entro en el método generatePackets");
-        Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
-
-        for (Device d : devices)    //Recorro todos los switch
-        {
-            List<Port> ports = deviceService.getPorts(d.id());      //Almaceno en la variable ports, todos los puertos del switch
-
-            for (Port port : ports)     //Obtengo estadisticas para cada puerto
-            {
-                PortStatistics portstat = deviceService.getStatisticsForPort(d.id(), port.number());
-
-                if (portstat != null)
-                {
-                    key.add(port.number().toString());
-                    value.add(Long.toString(portstat.packetsReceived()));
-                } else
-                {
-                    log.info(" generatePackets - INFO 1 | No se pueden recuperar estadisticas del puerto: " + port.number() + "del switch: " +d.id().toString());
-                }
-            }
-        }
-
-        try
-        {
-            log.info("generatePackets - INFO 1 | Generando packets.xml");
-            generateXML("packets", key, value);    //Llamada al método generate
-        } catch (Exception e)
-        {
-            log.info("generatePackets - ERROR 0 | Error al generar packets.xml");
-        }
-    }
-
-    //public static void generate(String name, ArrayList<String> key,ArrayList<String> value) throws Exception
-    public void generateXML(String name, ArrayList<String> key, ArrayList<String> value) throws Exception
+    public void generateXML(String switchID[], ArrayList<String> keyP, ArrayList<String> valueBR, ArrayList<String> valueBS
+            , ArrayList<String> valueD, ArrayList<String> valuePR, ArrayList<String> valuePRD, ArrayList<String> valuePRE
+            , ArrayList<String> valuePS, ArrayList<String> valuePTD, ArrayList<String> valuePTE) throws Exception
     {
         log.info("generateXML - INFO 0 | Entro en el metodo generate");
         //Por ahora no voy a usar la hora en el nombre del fichero, quiero meterlo en el mensaje
@@ -153,9 +146,9 @@ public class AppComponent
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("hh:mm:ss");
         String hora = hourdateFormat.format(date);
-        if(key.isEmpty() || value.isEmpty() || key.size()!=value.size())
+        if(keyP.isEmpty())
         {
-            log.info("generateXML - ERROR 0 | Error en la dupla clave-valor");
+            log.info("generateXML - ERROR 0 | No se ha definido puerto");
             return;
         }
         else
@@ -163,31 +156,61 @@ public class AppComponent
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             DOMImplementation implementation = builder.getDOMImplementation();
-            Document document = implementation.createDocument(null, name, null);
+            Document document = implementation.createDocument(null, "home", null);
             document.setXmlVersion("1.0");
-            document.setTextContent(hora);
 
             Element raiz = document.getDocumentElement();	//Nodo principal
-
-            for(int i=0; i<key.size();i++)	       //Por cada key creamos un item que contendrá la key y el value
+            for(int i=0; i<keyP.size();i++)	       //Por cada key creamos un item que contendrá la key y el value
             {
-                Element itemNode = document.createElement(name);
+                Element itemNode = document.createElement(switchID[i]);
                 Element keyNode = document.createElement("port");
-                Text nodeKeyValue = document.createTextNode(key.get(i));
+                Text nodeKeyValue = document.createTextNode(keyP.get(i));
                 keyNode.appendChild(nodeKeyValue);
-                Element valueNode = document.createElement("value");
-                Text nodeValueValue = document.createTextNode(value.get(i));
+                Element valueNode = document.createElement("bytesR");
+                Text nodeValueValue = document.createTextNode(valueBR.get(i));
                 valueNode.appendChild(nodeValueValue);
+                Element valueNode1 = document.createElement("bytesS");
+                Text nodeValueValue1 = document.createTextNode(valueBS.get(i));
+                valueNode1.appendChild(nodeValueValue1);
+                Element valueNode2 = document.createElement("duration");
+                Text nodeValueValue2 = document.createTextNode(valueD.get(i));
+                valueNode2.appendChild(nodeValueValue2);
+                Element valueNode3 = document.createElement("packetsR");
+                Text nodeValueValue3 = document.createTextNode(valuePR.get(i));
+                valueNode3.appendChild(nodeValueValue3);
+                Element valueNode4 = document.createElement("packetsRxD");
+                Text nodeValueValue4 = document.createTextNode(valuePRD.get(i));
+                valueNode4.appendChild(nodeValueValue4);
+                Element valueNode5 = document.createElement("packetsRxE");
+                Text nodeValueValue5 = document.createTextNode(valuePRE.get(i));
+                valueNode5.appendChild(nodeValueValue5);
+                Element valueNode6 = document.createElement("packetsS");
+                Text nodeValueValue6 = document.createTextNode(valuePS.get(i));
+                valueNode6.appendChild(nodeValueValue6);
+                Element valueNode7 = document.createElement("packetsTxD");
+                Text nodeValueValue7 = document.createTextNode(valuePTD.get(i));
+                valueNode7.appendChild(nodeValueValue7);
+                Element valueNode8 = document.createElement("packetsTxE");
+                Text nodeValueValue8 = document.createTextNode(valuePTE.get(i));
+                valueNode8.appendChild(nodeValueValue8);
                 itemNode.appendChild(keyNode);
                 itemNode.appendChild(valueNode);
+                itemNode.appendChild(valueNode1);
+                itemNode.appendChild(valueNode2);
+                itemNode.appendChild(valueNode3);
+                itemNode.appendChild(valueNode4);
+                itemNode.appendChild(valueNode5);
+                itemNode.appendChild(valueNode6);
+                itemNode.appendChild(valueNode7);
+                itemNode.appendChild(valueNode8);
                 raiz.appendChild(itemNode);
             }
             Source source = new DOMSource(document);
-            Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +".xml"));
+            Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/resultado.xml"));
             //Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +"_" +hora +".xml"));   Con hora en el fichero
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
-            log.info("generateXML - OK 0 | Se ha generado " +name +".xml exitosamente");
+            log.info("generateXML - OK 0 | Se ha generado resultado.xml exitosamente");
             //log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
         }
     }
