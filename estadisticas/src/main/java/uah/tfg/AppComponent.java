@@ -93,20 +93,23 @@ public class AppComponent
         log.info("generateStatistics - INFO 0 | Entro en el método generateStatistics");
         Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
         String switchs[] = new String[50];      //Para guarda el id de cada switch
-        int i =0;
+        String nombreOriginal;
+        int a =0;
 
         for (Device d : devices)    //Recorro todos los switchs
         {
             List<Port> ports = deviceService.getPorts(d.id());      //Almaceno en la variable ports, todos los puertos del switch
 
+
             for (Port port : ports)     //Obtengo estadisticas para cada puerto de cada switch
             {
                 PortStatistics portstat = deviceService.getStatisticsForPort(d.id(), port.number());
-                switchs[i]=d.id().toString();
-                i++;
 
                 if (portstat != null)
                 {
+                    nombreOriginal=d.id().toString();
+                    switchs[a]=reemplaza(nombreOriginal);       //Le quito los ':' para que no me de error al generar el XML
+                    a++;
                     keyP.add(port.number().toString());
                     valueBR.add(Long.toString(portstat.bytesReceived()));
                     valueBS.add(Long.toString(portstat.bytesSent()));
@@ -213,6 +216,11 @@ public class AppComponent
             log.info("generateXML - OK 0 | Se ha generado resultado.xml exitosamente");
             //log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
         }
+    }
+
+    public String reemplaza(String nombre)
+    {
+        return(nombre.replace(":","_"));
     }
 
     @Deactivate
