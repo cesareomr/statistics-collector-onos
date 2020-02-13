@@ -19,15 +19,10 @@ import org.apache.felix.scr.annotations.*;
 import org.onosproject.net.*;
 import org.onosproject.net.device.DeviceService;
 import org.onosproject.net.device.PortStatistics;
-import org.onosproject.net.link.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,13 +62,12 @@ public class AppComponent
         ArrayList valuePacketsS = new ArrayList();
         ArrayList valuePacketsTxD = new ArrayList();
         ArrayList valuePacketsTxE = new ArrayList();
-        //int siempre=0;
 
-        //for (siempre=0 ; siempre <50 ; siempre++)   //Temporal para que pueda acabar
-        //{    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
+        for (int siempre=0 ; siempre <20 ; siempre++)   //Temporal para que pueda acabar
+        {    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
             log.info("activate - INFO 1 | Llamo al método generateStatistics");
             generateStatistics(keyPort, valueBytesR, valueBytesS, valueDuration, valuePacketsR, valuePacketsRxD, valuePacketsRxE, valuePacketsS, valuePacketsTxD, valuePacketsTxE);
-            /*keyPort.clear();
+            keyPort.clear();
             valueBytesR.clear();
             valueBytesS.clear();
             valueDuration.clear();
@@ -83,8 +77,8 @@ public class AppComponent
             valuePacketsS.clear();
             valuePacketsTxD.clear();
             valuePacketsTxE.clear();
-            TimeUnit.SECONDS.sleep(10);
-        }*/
+            TimeUnit.SECONDS.sleep(10); //No puede ser menor que 3
+        }
     }
 
     public void generateStatistics(ArrayList keyP,ArrayList valueBR,ArrayList valueBS,ArrayList valueD
@@ -144,11 +138,7 @@ public class AppComponent
             , ArrayList<String> valuePS, ArrayList<String> valuePTD, ArrayList<String> valuePTE) throws Exception
     {
         log.info("generateXML - INFO 0 | Entro en el metodo generate");
-        //Por ahora no voy a usar la hora en el nombre del fichero, quiero meterlo en el mensaje
-        //y que es xml en el content-type
-        Date date = new Date();
-        DateFormat hourdateFormat = new SimpleDateFormat("hh:mm:ss");
-        String hora = hourdateFormat.format(date);
+
         if(keyP.isEmpty())
         {
             log.info("generateXML - ERROR 0 | No se ha definido puerto");
@@ -208,13 +198,12 @@ public class AppComponent
                 itemNode.appendChild(valueNode8);
                 raiz.appendChild(itemNode);
             }
+
             Source source = new DOMSource(document);
             Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/resultado.xml"));
-            //Result result = new StreamResult(new java.io.File("/home/cesareo/Resultados/"+name +"_" +hora +".xml"));   Con hora en el fichero
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(source, result);
             log.info("generateXML - OK 0 | Se ha generado resultado.xml exitosamente");
-            //log.info("generateXML - OK 0 | Se ha generado " +name +"_" +hora +".xml exitosamente");
         }
     }
 

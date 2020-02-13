@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1580402141047
+Bnd-LastModified: 1581629201633
 Build-Jdk: 1.8.0_201
 Built-By: cesareo
 Bundle-Description: ONOS OSGi bundle archetype
