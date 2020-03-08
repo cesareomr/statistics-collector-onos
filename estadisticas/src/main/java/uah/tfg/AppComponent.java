@@ -63,7 +63,7 @@ public class AppComponent
         ArrayList valuePacketsTxD = new ArrayList();
         ArrayList valuePacketsTxE = new ArrayList();
 
-        for (int siempre=0 ; siempre <20 ; siempre++)   //Temporal para que pueda acabar
+        for (int siempre=0 ; siempre <500 ; siempre++)   //Temporal para que pueda acabar
         {    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
             log.info("activate - INFO 1 | Llamo al método generateStatistics");
             generateStatistics(keyPort, valueBytesR, valueBytesS, valueDuration, valuePacketsR, valuePacketsRxD, valuePacketsRxE, valuePacketsS, valuePacketsTxD, valuePacketsTxE);
@@ -86,7 +86,7 @@ public class AppComponent
     {
         log.info("generateStatistics - INFO 0 | Entro en el método generateStatistics");
         Iterable<Device> devices = deviceService.getAvailableDevices(Device.Type.SWITCH);   //Almaceno en la variable devices todos los switchs que hay en la red
-        String switchs[] = new String[50];      //Para guarda el id de cada switch
+        String switchs[] = new String[500];      //Para guarda el id de cada switch
         String nombreOriginal;
         int a =0;
 
