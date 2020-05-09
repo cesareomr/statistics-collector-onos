@@ -63,7 +63,7 @@ public class AppComponent
         ArrayList valuePacketsTxD = new ArrayList();
         ArrayList valuePacketsTxE = new ArrayList();
 
-        for (int siempre=0 ; siempre <500 ; siempre++)   //Temporal para que pueda acabar
+        for (int siempre=0 ; siempre <100 ; siempre++)   //Temporal para que pueda acabar
         {    //Para que fuera infinito lo haría con un while, pero no consigo pararlo
             log.info("activate - INFO 1 | Llamo al método generateStatistics");
             generateStatistics(keyPort, valueBytesR, valueBytesS, valueDuration, valuePacketsR, valuePacketsRxD, valuePacketsRxE, valuePacketsS, valuePacketsTxD, valuePacketsTxE);

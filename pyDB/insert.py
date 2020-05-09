@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on SAT Jan 25 2020
+@author: cesareomr
+
+Swtich to english:
 
 Leo el .xml que devuelve la aplicación de onos e inserto esos valores en una base de datos
-
-@author: Cesareo
 
 Entro en un switch y recorro todos sus valores, realmente solo me interesan switch.tag y datos.text, las etiquetas ya las conozco por posición
 
@@ -26,9 +27,9 @@ def main():
 	my_file = Path("/home/cesareo/Resultados/resultado.xml")
 
 	while True:
-		if my_file.is_file():	#Todo lo que hay debajo es por si mi archivo existe
+		if my_file.is_file():	# If resultado.xml exists
 			time.sleep(3)
-			xml = ET.parse("/home/cesareo/Resultados/resultado.xml")   # Falla si pones my_file
+			xml = ET.parse("/home/cesareo/Resultados/resultado.xml")   # Don't work with $my_file
 			raiz = xml.getroot()
 
 			for switch in raiz:

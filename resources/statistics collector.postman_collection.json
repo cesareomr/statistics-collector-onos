@@ -1,0 +1,890 @@
+{
+	"info": {
+		"_postman_id": "e554e1f2-a76b-4d07-9a0d-a45bf4625ca5",
+		"name": "statistics collector",
+		"description": "Colección de llamadas del TFG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/bytes/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/bytes/received",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"bytes",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de bytes recibidos por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/bytes/sent?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/bytes/sent",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"bytes",
+						"sent"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de bytes enviados por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/received",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes recibidos por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/received/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/received/dropped",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"received",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes descartados en recepción por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/received/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/received/error",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"received",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes recibidos con error por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/transmitted?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/transmitted",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"transmitted"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "2000",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes transmitidos por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/transmitted/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/transmitted/dropped",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"transmitted",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes descartados en transmisión enviados por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/packets/transmitted/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/packets/transmitted/error",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"packets",
+						"transmitted",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes transmitidos con error por todos los puertos de todos los router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}?time=600",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600"
+						}
+					]
+				},
+				"description": "Toda la información correspondiente a un router, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/bytes/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/bytes/received?time=1000",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"bytes",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "1000"
+						}
+					]
+				},
+				"description": "Total de bytes recibidos en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/bytes/sent?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/bytes/sent",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"bytes",
+						"sent"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "125",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de bytes enviados en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/packets/received?time=60",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"packets",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60"
+						}
+					]
+				},
+				"description": "Total de paquetes recibidos  en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/received/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/packets/received/dropped",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"packets",
+						"received",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "50",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes descartados en recepción en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/received/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/packets/received/error?time=60",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"packets",
+						"received",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60"
+						}
+					]
+				},
+				"description": "Total de paquetes recibidos con error en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/transmitted?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/packets/transmitted",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"packets",
+						"transmitted"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes transmitidos en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/transmitted/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/packets/transmitted/dropped?time=250",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"packets",
+						"transmitted",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "250"
+						}
+					]
+				},
+				"description": "Total de paquetes descartados en transmisión en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/packets/transmitted/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/packets/transmitted/error",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"packets",
+						"transmitted",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "1000",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de paquetes transmitidos con error en todos los puertos del router especificado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/bytes/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/{{port1}}/bytes/received?time=600",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"{{port1}}",
+						"bytes",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600"
+						}
+					]
+				},
+				"description": "Total de bytes recibidos en un puerto especifico de un router indicado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/bytes/sent?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/{{port3}}/bytes/sent",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"{{port3}}",
+						"bytes",
+						"sent"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Total de bytes enviados en un puerto especifico de un router indicado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/received?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/{{port2}}/packets/received",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"{{port2}}",
+						"packets",
+						"received"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "50",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Paquetes recibidos en un puerto especifico de un router indicado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/received/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/{{port2}}/packets/received/dropped?time=600",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"{{port2}}",
+						"packets",
+						"received",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600"
+						}
+					]
+				},
+				"description": "Paquetes descartados en recepción en un puerto de un router especifico, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/received/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/{{port3}}/packets/received/error",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"{{port3}}",
+						"packets",
+						"received",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "60",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Paquetes recibidos con error en un puerto especifico de un router indicado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/transmitted?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/{{port1}}/packets/transmitted?time=600",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"{{port1}}",
+						"packets",
+						"transmitted"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "600"
+						}
+					]
+				},
+				"description": "Paquetes transmitidos en un puerto especifico de un router indicado, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/transmitted/dropped?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router1}}/{{port1}}/packets/transmitted/dropped?time=2000",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router1}}",
+						"{{port1}}",
+						"packets",
+						"transmitted",
+						"dropped"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "2000"
+						}
+					]
+				},
+				"description": "Paquetes descartados en transmisión en un puerto de un router especifico, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/packets/transmitted/error?{time}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/{{port2}}/packets/transmitted/error",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"{{port2}}",
+						"packets",
+						"transmitted",
+						"error"
+					],
+					"query": [
+						{
+							"key": "time",
+							"value": "500",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Paquetes transmitidos con error en un puerto de un router especifico, puediendo filtrar por tiempo"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/{port}/up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/{{port3}}/up",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"{{port3}}",
+						"up"
+					]
+				},
+				"description": "Tiempo que lleva vivo ese puerto de ese router"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/max/up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router3}}/max/up",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router3}}",
+						"max",
+						"up"
+					]
+				},
+				"description": "Puerto que lleva mas tiempo vivo en un router especifico"
+			},
+			"response": []
+		},
+		{
+			"name": "/{router}/min/up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/{{router2}}/min/up",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"{{router2}}",
+						"min",
+						"up"
+					]
+				},
+				"description": "Puerto que lleva menos tiempo vivo en un rotuer especifico"
+			},
+			"response": []
+		},
+		{
+			"name": "/port/max/up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/port/max/up",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"port",
+						"max",
+						"up"
+					]
+				},
+				"description": "Que puerto de que router lleva más tiempo vivo"
+			},
+			"response": []
+		},
+		{
+			"name": "/port/min/up\t",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{server}}/port/min/up",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"port",
+						"min",
+						"up"
+					]
+				},
+				"description": "Que puerto de que router lleva menos tiempo vivo"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fc66904c-c4e5-4062-8ab6-a8d083c1e436",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2c473011-137e-40cf-ada2-aefd7e2c46d1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e3ef3637-c55e-4a27-bd69-a10ee69b5754",
+			"key": "server",
+			"value": "127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"id": "12f2819c-0466-49a1-9d58-1a0f1967f7f2",
+			"key": "port",
+			"value": "5000",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "9c1d789d-be76-4dab-9201-14dbff84164e",
+			"key": "router1",
+			"value": "of_0000000000000001",
+			"type": "string"
+		},
+		{
+			"id": "b09f4fd9-8349-4ec7-89a0-d61d4353ef99",
+			"key": "router2",
+			"value": "of_0000000000000002",
+			"type": "string"
+		},
+		{
+			"id": "148053e6-2f21-4ffb-85d4-fc2b021d9d57",
+			"key": "router3",
+			"value": "of_0000000000000003",
+			"type": "string"
+		},
+		{
+			"id": "c1497cdb-c0b6-4995-bd6f-c1f4193aca8f",
+			"key": "port1",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "fac5724c-4704-45e6-927a-0939a18ea6c8",
+			"key": "port2",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"id": "91667fae-4b7f-4361-9263-e91eafbc075f",
+			"key": "port3",
+			"value": "3",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
